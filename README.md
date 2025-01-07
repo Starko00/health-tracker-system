@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Health Tracker System
 
-First, run the development server:
+## Overview
+The **Health Tracker System** is a Next.js application designed for doctors to efficiently monitor and manage patient health data. It leverages server-side rendering for performance, Supabase for seamless database management, and Google OAuth for secure authentication. The project aims to streamline healthcare workflows and enhance patient care, hosted on Vercel for scalable deployment.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- **Patient Management**: Add, update, and manage patient records securely.
+- **Health Metrics Tracking**: Log, analyze, and visualize health data trends.
+- **Notifications**: Alert doctors about critical health conditions.
+- **Secure Authentication**: Google OAuth via NextAuth.
+- **Real-Time Updates**: Sync health data with Supabase integration.
+- **Responsive Design**: Optimized for web and mobile access.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
+- **Framework**: Next.js (with server-side rendering and server actions).
+- **Database**: PostgreSQL, managed through Supabase.
+- **Authentication**: NextAuth with Google OAuth.
+- **Hosting**: Vercel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/health-tracker-system.git
+   cd health-tracker-system
+   ```
 
-## Learn More
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following variables:
+   ```env
+    DATABASE_MIGRATION_URL=
+    DATABASE_URL=
+    NEXTAUTH_SECRET=
+    GOOGLE_SECRET=
+    RESEND_API_KEY=r
+    UPLOADTHING_TOKEN=
+    ENVIRONMENT=local
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+   The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
+1. Sign in using your Google account.
+2. Add a new patient and input their health metrics.
+3. Monitor health trends and receive alerts for critical conditions.
 
-## Deploy on Vercel
+## Roadmap
+- [ ] Build the core infra
+- [ ] Enable exportable health reports for patients.
+- [ ] Add role-based access for admin and nurses.
+- [ ] Implement offline mode using PWA support.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes and push the branch.
+4. Submit a pull request for review.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
