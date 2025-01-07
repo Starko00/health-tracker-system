@@ -38,7 +38,7 @@ The **Health Tracker System** is a Next.js application designed for doctors to e
     DATABASE_URL=
     NEXTAUTH_SECRET=
     GOOGLE_SECRET=
-    RESEND_API_KEY=r
+    RESEND_API_KEY=
     UPLOADTHING_TOKEN=
     ENVIRONMENT=local
    ```
