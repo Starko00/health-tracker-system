@@ -1,4 +1,5 @@
 import { auth } from "@/auth"
+import { UserExtended } from "./actions/auth/types"
 export default auth((req) => {
     if (!req.auth && req.nextUrl.pathname !== "/") {
       const newUrl = new URL("/", req.nextUrl.origin)
@@ -14,6 +15,13 @@ export default auth((req) => {
       const newUrl = new URL("/first-time-setup", req.nextUrl.origin)
       return Response.redirect(newUrl)
     }else if(req.auth && req.nextUrl.pathname === "/first-time-setup"){
+      const newUrl = new URL("/dashboard", req.nextUrl.origin)
+      return Response.redirect(newUrl)
+    }
+    if(req.auth && !(req.auth.user as UserExtended).workspaceId && req.nextUrl.pathname !== "/workspace-setup"){
+      const newUrl = new URL("/workspace-setup", req.nextUrl.origin)
+      return Response.redirect(newUrl)
+    }if(req.auth && (req.auth.user as UserExtended).workspaceId && req.nextUrl.pathname === "/workspace-setup"){
       const newUrl = new URL("/dashboard", req.nextUrl.origin)
       return Response.redirect(newUrl)
     }

@@ -1,4 +1,5 @@
 'use client'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import {
     isServer,
     QueryClient,
@@ -44,7 +45,9 @@ import { SessionProvider } from 'next-auth/react'
     return (
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
-          {children}
+          <SidebarProvider>
+            {children}
+          </SidebarProvider>
         </SessionProvider>
       </QueryClientProvider>
     )

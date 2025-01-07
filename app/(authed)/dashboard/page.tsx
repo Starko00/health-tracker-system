@@ -12,9 +12,9 @@ export default async function Dashboard() {
         redirect('/')
     }
    return (
-    <div>
-        {JSON.stringify(session.user)}
-        <SignoutBtn />
+    <div className=''>
+       
+      
     </div>
   )
 }
