@@ -134,6 +134,8 @@ export const appointments = pgTable("appointments",{
     patientId: uuid().notNull().references(() => patients.id, { onDelete: "cascade" }),
     date_time: timestamp("date_time", { mode: "date" }).notNull(),
     status: text("status").notNull(),
+    email_sent: boolean("email_sent").default(false).notNull(),
+    reminder_sent: boolean("reminder_sent").default(false).notNull(),
     notes: text("notes"),
     created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
     updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
@@ -153,6 +155,61 @@ export const documents = pgTable("documents",{
     editor_data: jsonb("editor_data"),
     created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
     updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+})
+
+export const appointment_availability = pgTable("appointment_availability",{
+    id: uuid().primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
+    workspaceId: uuid().notNull().references(() => workspaces.id, { onDelete: "cascade" }),
+    user_id: uuid().notNull().references(() => users.id, { onDelete: "cascade" }),
+    start_time: timestamp("start_time", { mode: "date" }).notNull(),
+    end_time: timestamp("end_time", { mode: "date" }).notNull(),
+    created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+    updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+    duration: integer("duration").notNull(),
+    daily_availability: jsonb("daily_availability").default({
+      monday: {
+        start_time: "09:00",
+        end_time: "17:00", 
+        all_day: false,
+        disabled: false
+      },
+      tuesday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      },
+      wednesday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      },
+      thursday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      },
+      friday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      },
+      saturday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      },
+      sunday: {
+        start_time: "09:00",
+        end_time: "17:00",
+        all_day: false,
+        disabled: false
+      }
+    }).notNull(),
 })
 
 

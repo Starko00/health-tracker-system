@@ -27,8 +27,7 @@ export default function FirstTimeProfile() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
-  const { data } = useSession();
-  const [isLoading, setIsLoading] = useState(false)
+
   const router = useRouter()
   const mutate = useMutation({
     mutationFn:async()=>{

@@ -30,6 +30,8 @@ import {
 import { useSession } from "next-auth/react"
 import { UserExtended } from "@/actions/auth/types"
 import { usePathname } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import { getUserDetails } from "@/actions/auth"
 
 // This is sample data.
 
@@ -46,19 +48,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Upcoming",
-            url: "/dashboard/appointments/upcoming",
+            url: "/dashboard?status=upcoming",
           },
           {
             title: "Past",
-            url: "/dashboard/appointments/past",
+            url: "/dashboard?status=past",
           },
           {
             title: "Cancelled",
-            url: "/dashboard/appointments/cancelled",
+            url: "/dashboard?status=cancelled",
           },
           {
             title:'Setup',
-            url:'/dashboard/appointments/setup',
+            url:'/dashboard?action=setup',
           }
         ],
       },
@@ -73,11 +75,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }, 
           {
             title: "On therapy",
-            url: "/dashboard/patients/on-therapy",
+            url: "/dashboard/patients?status=on-therapy",
           },
           {
             title: "Archive",
-            url: "/dashboard/patients/archive",
+            url: "/dashboard/patients?status=archive",
           }
         ],
       },
@@ -93,6 +95,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           {
             title: "Lab",
             url: "/dashboard/documents?type=lab",
+          },
+          {
+            title: "Therapies",
+            url: "/dashboard/documents?type=therapies",
           }
         ],
       },
@@ -109,27 +115,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       }))
     }))
   }, [pathname])
-  const currentUser = useSession().data?.user as UserExtended
-  if(!currentUser) return null
+  
+
+  
   return (
     <Sidebar  collapsible="icon" {...props}>
+      
       <SidebarHeader>
-        <TeamSwitcher teams={[{
-          logo: GalleryVerticalEnd,
-          name: currentUser?.workspace_name ? currentUser?.workspace_name : "No Workspace",
-          plan: currentUser?.role ? currentUser?.role : "No Role"
-        }]} />
+       <TeamSwitcher/> 
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={{
-          avatar: currentUser?.image,
-          email: currentUser?.email,
-          name: currentUser?.name
-        }} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
