@@ -17,7 +17,7 @@ export default function BreadcrumbListAuto() {
     {breadcrumbs.map((breadcrumb, index) => ( 
         <React.Fragment key={index}>
         <BreadcrumbItem>
-            <BreadcrumbLink href={`/${breadcrumb}`} className='capitalize'>{breadcrumb}</BreadcrumbLink>
+            <BreadcrumbLink href={`/dashboard/${breadcrumb}`} className='capitalize'>{breadcrumb}</BreadcrumbLink>
         </BreadcrumbItem>
         {index < breadcrumbs.length - 1 && <BreadcrumbSeparator className="hidden md:block" />}
         </React.Fragment>

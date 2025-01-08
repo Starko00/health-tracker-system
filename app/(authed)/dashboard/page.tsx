@@ -14,11 +14,12 @@ import { UserExtended } from "@/actions/auth/types";
 import AppointmentsLink from "@/components/functional/appointments-link";
 import Appointments from "@/components/functional/appointments";
 
-export default async function Dashboard() {
+export default async function Dashboard({searchParams}:{searchParams:Promise<{status:string}>}) {
   const session = await auth();
   if (!session) {
     redirect("/");
   }
+  const status =( await searchParams).status
   return (
     <div className="">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -49,7 +50,7 @@ export default async function Dashboard() {
             <CardDescription>View your upcoming appointments here</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <Appointments/>
+            <Appointments status={status} />
           </CardContent>
         </Card>
       </div>

@@ -47,21 +47,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         
         items: [
           {
-            title: "Upcoming",
-            url: "/dashboard?status=upcoming",
+            title: "Pending",
+            url: "/dashboard?status=pending",
           },
           {
-            title: "Past",
-            url: "/dashboard?status=past",
+            title: "Done",
+            url: "/dashboard?status=done",
           },
           {
             title: "Cancelled",
             url: "/dashboard?status=cancelled",
           },
-          {
-            title:'Setup',
-            url:'/dashboard?action=setup',
-          }
+        
         ],
       },
       {
@@ -73,35 +70,35 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: "All",
             url: "/dashboard/patients",
           }, 
-          {
-            title: "On therapy",
-            url: "/dashboard/patients?status=on-therapy",
-          },
-          {
-            title: "Archive",
-            url: "/dashboard/patients?status=archive",
-          }
+          // {
+          //   title: "On therapy",
+          //   url: "/dashboard/patients?status=on-therapy",
+          // },
+          // {
+          //   title: "Archive",
+          //   url: "/dashboard/patients?status=archive",
+          // }
         ],
       },
-      {
-        title: "Documents",
-        url: "/dashboard/documents",
-        icon: BookOpen,
-        items: [
-          {
-            title: "All",
-            url: "/dashboard/documents",
-          },
-          {
-            title: "Lab",
-            url: "/dashboard/documents?type=lab",
-          },
-          {
-            title: "Therapies",
-            url: "/dashboard/documents?type=therapies",
-          }
-        ],
-      },
+      // {
+      //   title: "Documents",
+      //   url: "/dashboard/documents",
+      //   icon: BookOpen,
+      //   items: [
+      //     {
+      //       title: "All",
+      //       url: "/dashboard/documents",
+      //     },
+      //     {
+      //       title: "Lab",
+      //       url: "/dashboard/documents?type=lab",
+      //     },
+      //     {
+      //       title: "Therapies",
+      //       url: "/dashboard/documents?type=therapies",
+      //     }
+      //   ],
+      // },
       
     ],
     

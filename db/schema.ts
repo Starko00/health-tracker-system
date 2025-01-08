@@ -12,6 +12,7 @@ import {
 import postgres from "postgres"
 import { drizzle } from "drizzle-orm/postgres-js"
 import type { AdapterAccountType } from "next-auth/adapters"
+import { relations } from 'drizzle-orm'
 
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle"
 const pool = postgres(connectionString, { max: 1 })
@@ -36,7 +37,7 @@ export const workspaceMembers = pgTable("workspace_members",{
 })
 
 export const status = pgEnum("status", ["pending", "done", "cancelled"])
-
+export const therapyStatus = pgEnum("therapy_status", ["active", "inactive"])
 export const users = pgTable("user", {
     id: uuid().primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     name: text("name"),
@@ -115,8 +116,6 @@ export const authenticators = pgTable(
     ]
 )
 
-
-
 export const patients = pgTable("patients",{
     id: uuid().primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     workspaceId: uuid().notNull().references(() => workspaces.id, { onDelete: "cascade" }),
@@ -132,11 +131,27 @@ export const appointments = pgTable("appointments",{
     id: uuid().primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     workspaceId: uuid().notNull().references(() => workspaces.id, { onDelete: "cascade" }),
     patientId: uuid().notNull().references(() => patients.id, { onDelete: "cascade" }),
-    date_time: timestamp("date_time", { mode: "date" }).notNull(),
+    date_time_start: timestamp("date_time_start", { mode: "date" }).notNull(),
+    date_time_end: timestamp("date_time_end", { mode: "date" }).notNull(),
+    duration: integer("duration").notNull(),
     status: text("status").notNull(),
     email_sent: boolean("email_sent").default(false).notNull(),
     reminder_sent: boolean("reminder_sent").default(false).notNull(),
     notes: text("notes"),
+    created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+    updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+})
+
+export const therapies = pgTable("therapies", {
+    id: uuid().primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
+    patientId: uuid().notNull().references(() => patients.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    start_date: timestamp("start_date", { mode: "date" }).notNull().$defaultFn(() => new Date()),
+    end_date: timestamp("end_date", { mode: "date" }),
+    status: text("status", { enum: ["active", "completed", "cancelled"] }).notNull(),
+    notes: text("notes"),
+    workspaceId: uuid().notNull().references(() => workspaces.id, { onDelete: "cascade" }),
     created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
     updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
 })
@@ -152,7 +167,7 @@ export const documents = pgTable("documents",{
     description: text("description"),
     status: status("status").default("pending").notNull(),
     appointment_id: uuid().references(() => appointments.id, { onDelete: "cascade" }),
-    editor_data: jsonb("editor_data"),
+    patient_id: uuid().references(() => patients.id, { onDelete: "set null" }),
     created_at: timestamp("created_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
     updated_at: timestamp("updated_at", { mode: "date" }).notNull().$defaultFn(() => new Date()),
 })
@@ -211,6 +226,25 @@ export const appointment_availability = pgTable("appointment_availability",{
       }
     }).notNull(),
 })
+
+export const patientsRelations = relations(patients, ({ many }) => ({
+  appointments: many(appointments),
+  therapies: many(therapies),
+}))
+
+export const appointmentsRelations = relations(appointments, ({ one }) => ({
+  patient: one(patients, {
+    fields: [appointments.patientId],
+    references: [patients.id],
+  }),
+}))
+
+export const therapiesRelations = relations(therapies, ({ one }) => ({
+  patient: one(patients, {
+    fields: [therapies.patientId],
+    references: [patients.id],
+  }),
+}))
 
 
 
