@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { UserExtended } from "./actions/auth/types"
 export default auth((req) => {
-    if (!req.auth && req.nextUrl.pathname !== "/" && !req.nextUrl.pathname.includes("/book")) {
+    if (!req.auth && req.nextUrl.pathname !== "/" && !req.nextUrl.pathname.includes("/book") && !req.nextUrl.pathname.includes("/portal")) {
       const newUrl = new URL("/", req.nextUrl.origin)
       return Response.redirect(newUrl)
     }else if(req.auth && req.nextUrl.pathname === "/"){

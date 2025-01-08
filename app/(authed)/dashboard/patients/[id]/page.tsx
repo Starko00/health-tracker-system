@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { getPatient } from '@/actions/patients'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { getPatient, sendPortalLink } from '@/actions/patients'
 import { Loader2, Mail, Phone, User, Calendar, Clock, Activity } from 'lucide-react'
 import { format } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +14,8 @@ import { TherapyActions } from '@/components/functional/therapy-actions'
 import { TherapyDetailsDialog } from '@/components/functional/therapy-details-dialog'
 import { PatientDocuments } from '@/components/functional/patient-documents'
 import { useParams } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 type Appointment = {
   id: string
@@ -56,11 +58,34 @@ export default function PatientsSinglePage({
 }) {
   const pageParams = useParams()
   const [selectedTherapy, setSelectedTherapy] = useState<Therapy | null>(null)
+  const [isSending, setIsSending] = useState(false)
   
   const { data: patientResponse, isLoading } = useQuery({
     queryKey: ['patient', pageParams.id],
     queryFn: () => getPatient(pageParams.id as string),
   })
+
+  const sendPortalLinkMutation = useMutation({
+    mutationFn: () => sendPortalLink(pageParams.id as string),
+    onSuccess: (data) => {
+      if (data.error) {
+        toast.error(data.error)
+      } else {
+        toast.success(data.message)
+      }
+    },
+    onError: () => {
+      toast.error("Failed to send portal link")
+    },
+    onSettled: () => {
+      setIsSending(false)
+    }
+  })
+
+  const handleSendLink = async () => {
+    setIsSending(true)
+    sendPortalLinkMutation.mutate()
+  }
 
   if (isLoading) {
     return (
@@ -345,6 +370,15 @@ export default function PatientsSinglePage({
           onOpenChange={(open) => !open && setSelectedTherapy(null)}
         />
       )}
+      <div className="flex justify-end">
+        <Button
+          onClick={handleSendLink}
+          disabled={isSending}
+          variant="secondary"
+        >
+          {isSending ? 'Sending...' : 'Send Portal Link'}
+        </Button>
+      </div>
     </div>
   )
 }
