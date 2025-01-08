@@ -100,6 +100,7 @@ export async function createAppointmentPublic(data:{
         eq(appointments.workspaceId, appointment_availability_exists[0].workspaceId),
         gte(appointments.date_time_start, new Date(data.start_time)),
         lte(appointments.date_time_end, new Date(data.end_time)),
+        eq(appointments.status, 'pending'),
     ))
     if(check_availability[0]) {
         return {
