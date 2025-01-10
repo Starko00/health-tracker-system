@@ -10,7 +10,7 @@ export function GoogleSignInBtn() {
         <span className="rounded-full bg-white border p-1  flex items-center justify-center aspect-square">
           <Image src="/assets/google.svg" alt="google" width={20} height={20} className="w-4 h-4 " />
         </span>
-        Signin with Google
+        Sign in with Google
       </Button>
     );
   }
